@@ -10,12 +10,12 @@ function Features({ visible, onClose }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm justify-center rounded-3xl flex flex-col m-5">
       <div
-        className="px-5 py-2 flex items-start justify-starts cursor-pointer bg-white m-2 rounded-3xl"
+        className="px-5 py-2 flex items-end justify-center w-24 cursor-pointer bg-white m-2 rounded-3xl hover:bg-red-500"
         onClick={onClose}
       >
         close X
       </div>
-      <div className=" rounded-2xl flex justify-around bg-white m-2">
+      <div className=" rounded-2xl flex justify-around bg-white m-2 h-96">
         {/* HEADING */}
         <div className=" flex flex-col bg-white justify-evenly p-2 rounded-3xl">
           <div
@@ -66,15 +66,13 @@ function Features({ visible, onClose }) {
             <h1 className="cursor-pointer ">About Us</h1>
             <i className="fa fa-arrow-right" />
           </div>
-          <div>
-            <h1 className="cursor-pointer ">
-              Sign out
-              <i className="fa fa-arrow-right" />
-            </h1>
+          <div className="flex justify-between w-100 items-center">
+            <h1 className="cursor-pointer ">Sign out</h1>
+            <i className="fa fa-arrow-right" />
           </div>
         </div>
         {/* CONTENT */}
-        <div>
+        <div className="flex justify-center items-center">
           <Profile visible={profile} />
           <Guideliance visible={guideliance} />
           <Help visible={help} />
@@ -91,7 +89,10 @@ function Profile({ visible }) {
   if (!visible) return null;
   return (
     <div className="m-2 rounded-lg">
-      PROFILE
+      <div className="flex justify-between items-center">
+        <h1>PROFILE</h1>
+        <h1>Edit</h1>
+      </div>
       {/* <img src="./images/map.png" alt="" /> */}
       <div className="flex flex-col">
         <div className="flex justify-between items-center">

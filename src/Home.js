@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "./component/Card";
+import { Link } from "react-router-dom";
 import Navbar from "./component/Navbar";
 
 function Home() {
@@ -10,11 +11,21 @@ function Home() {
         <img src="./images/map.png" alt="" />
       </div>
       <div className="m-2 grid lg:grid-cols-5 justify-center gap-5">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <Link to="/shopdetail">
+          <Card />
+        </Link>
+        <Link to="/shopdetail">
+          <Card />
+        </Link>
+        <Link to="/shopdetail">
+          <Card />
+        </Link>
+        <Link to="/shopdetail">
+          <Card />
+        </Link>
+        <Link to="/shopdetail">
+          <Card />
+        </Link>
       </div>
     </>
   );

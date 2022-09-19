@@ -14,7 +14,7 @@ function VendorHome() {
         {/* NAVBAR */}
         <div className="px-3 flex justify-between">
           <Link to="/home">
-            <i className="fa fa-bars" />
+            <i className="fa fa-bowl-food" />
             <span className="px-3 font-mono font-bold">nearBy</span>
           </Link>
         </div>

@@ -17,7 +17,7 @@ function Navbar() {
       <div className="flex justify-between items-center p-4 bg-orange-300">
         <div className="flex justify-between">
           <div className="px-3">
-            <i className="fa fa-bars" />
+            <i className="fa fa-bowl-food" />
           </div>
           <Link to="/">
             <h1>nearBy</h1>
