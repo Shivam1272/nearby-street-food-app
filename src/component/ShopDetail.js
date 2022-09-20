@@ -1,7 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function ShopDetail() {
+  let location = useLocation();
+  console.log(location);
   return (
     <>
       <Link
@@ -18,7 +20,7 @@ function ShopDetail() {
         <div className="flex flex-col p-20 rounded-lg shadow-lg bg-slate-600 m-2">
           <div className="flex justify-between items-center my-2">
             <span className="font-bold text-sm">Name</span>
-            <span>XYZ</span>
+            <span>{location.state.name}</span>
           </div>
           <div className="flex justify-between items-center my-2">
             <span className="font-bold text-sm">
@@ -26,11 +28,11 @@ function ShopDetail() {
               <br />
               Name
             </span>
-            <span>ABC</span>
+            <span>{location.state.shopName}</span>
           </div>
           <div className="flex justify-between items-center my-2">
             <span className="font-bold text-sm">City</span>
-            <span>Thane</span>
+            <span>{location.state.city}</span>
           </div>
           <div className="flex justify-between items-center my-2">
             <span className="font-bold text-sm">Menu Card</span>
