@@ -1,78 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Features({ visible, onClose }) {
-  let [profile, setShowProfile] = useState(true);
-  let [guideliance, setShowGuideliance] = useState(false);
-  let [help, setShowHelp] = useState(false);
-  let [about, setShowAbout] = useState(false);
-
+function Features({ visible, profile, guideliance, help, about, onClose }) {
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm justify-center rounded-3xl flex flex-col m-5">
       <div
-        className="px-5 py-2 flex items-end justify-center w-24 cursor-pointer bg-white m-2 rounded-3xl hover:bg-red-500"
+        className="px-5 py-2 flex flex-end justify-center w-24 cursor-pointer bg-white m-2 rounded-3xl hover:bg-red-500"
         onClick={onClose}
       >
         close X
       </div>
-      <div className=" rounded-2xl flex justify-around bg-white m-2 h-96">
-        {/* HEADING */}
-        <div className=" flex flex-col bg-white justify-evenly p-2 rounded-3xl">
-          <div
-            className="flex justify-between w-100 items-center"
-            onClick={() => {
-              setShowProfile(true);
-              setShowGuideliance(false);
-              setShowHelp(false);
-              setShowAbout(false);
-            }}
-          >
-            <h1 className="cursor-pointer ">Profile</h1>
-            <i className="fa fa-arrow-right" />
-          </div>
-          <div
-            className="flex justify-between w-100 items-center"
-            onClick={() => {
-              setShowProfile(false);
-              setShowGuideliance(true);
-              setShowHelp(false);
-              setShowAbout(false);
-            }}
-          >
-            <h1 className="cursor-pointer ">Guideliance</h1>
-            <i className="fa fa-arrow-right" />
-          </div>
-          <div
-            className="flex justify-between w-100 items-center"
-            onClick={() => {
-              setShowProfile(false);
-              setShowGuideliance(false);
-              setShowHelp(true);
-              setShowAbout(false);
-            }}
-          >
-            <h1 className="cursor-pointer ">Help</h1>
-            <i className="fa fa-arrow-right" />
-          </div>
-          <div
-            className="flex justify-between w-100 items-center"
-            onClick={() => {
-              setShowProfile(false);
-              setShowGuideliance(false);
-              setShowHelp(false);
-              setShowAbout(true);
-            }}
-          >
-            <h1 className="cursor-pointer ">About Us</h1>
-            <i className="fa fa-arrow-right" />
-          </div>
-          <div className="flex justify-between w-100 items-center">
-            <h1 className="cursor-pointer ">Sign out</h1>
-            <i className="fa fa-arrow-right" />
-          </div>
-        </div>
+      {/* HEADING */}
+      <div className=" rounded-2xl flex justify-around bg-white m-2">
         {/* CONTENT */}
-        <div className="flex justify-center items-center">
+        <div className="pt-10">
           <Profile visible={profile} />
           <Guideliance visible={guideliance} />
           <Help visible={help} />
@@ -88,33 +29,49 @@ export default Features;
 function Profile({ visible }) {
   if (!visible) return null;
   return (
-    <div className="m-2 rounded-lg">
+    <div className="m-2 rounded-lg flex flex-col justify-evenly">
       <div className="flex justify-between items-center">
-        <h1>PROFILE</h1>
-        <h1>Edit</h1>
+        <h1 className=" font-mono font-bold text-lg">PROFILE</h1>
+        <h1 className=" font-mono font-bold text-lg">Edit</h1>
       </div>
       {/* <img src="./images/map.png" alt="" /> */}
       <div className="flex flex-col">
-        <div className="flex justify-between items-center">
-          <label className="font-bold text-sm">Name</label>
-          <label>XYZ</label>
+        <div className="flex justify-between items-center my-2">
+          <label className="font-bold text-sm">
+            <i className="fa fa-user" />
+            <span className="p-2">Name</span>
+          </label>
+          <span>XYZ</span>
         </div>
-        <div className="flex justify-between items-center">
-          <label className="font-bold text-sm">mobile NO</label>
-          <label>99XXX XXXXX</label>
+        <div className="flex justify-between items-center my-2">
+          <label className="font-bold text-sm">
+            <i className="fa fa-phone" />
+            <span className="p-2">mobile</span>
+          </label>
+          <span>99XXX XXXXX</span>
         </div>
-        <div className="flex justify-between items-center">
-          <label className="font-bold text-sm">Shop Name</label>
+        <div className="flex justify-between items-center my-2">
+          <label className="font-bold text-sm">
+            <i className="fa fa-truck" />
+            <span className="p-2">Shop Name</span>
+          </label>
           <label>ABC</label>
         </div>
-        <div className="flex justify-between items-center">
-          <label className="font-bold text-sm">City</label>
+        <div className="flex justify-between items-center my-2">
+          <label className="font-bold text-sm">
+            <i className="fa fa-location" />
+            <span className="p-2">City</span>
+          </label>
           <label>Thane</label>
         </div>
-        <div className="flex justify-between items-center">
-          <label className="font-bold text-sm">Liscense No</label>
+        <div className="flex justify-between items-center my-2">
+          <label className="font-bold text-sm">
+            <i className="fa fa-id-card" />
+            <span className="p-2">Liscense No</span>
+          </label>
+          <label>-------------</label>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center my-2">
           <label className="font-bold text-sm">Menu Card</label>
         </div>
         {/* <label>Name</label> */}

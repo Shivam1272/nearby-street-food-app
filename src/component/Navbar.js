@@ -15,7 +15,7 @@ function Navbar() {
   return (
     <div>
       <div className="flex justify-between items-center p-4 bg-orange-300">
-        <div className="flex justify-between">
+        <div className="flex justify-between font-bold">
           <div className="px-3">
             <i className="fa fa-bowl-food" />
           </div>
@@ -23,7 +23,7 @@ function Navbar() {
             <h1>nearBy</h1>
           </Link>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between font-bold">
           <button
             className="px-3 hover:text-white hover:border-b-2"
             onClick={() => {

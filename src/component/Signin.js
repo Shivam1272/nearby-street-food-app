@@ -22,16 +22,19 @@ function Signin({ isVisible, onClose }) {
               Sign in form for Vendor
             </div>
             <input
+              id="username"
               type="text"
               placeholder="username"
               className="input-text outline-none rounded-lg px-2"
             />
             <input
+              id="mobile"
               type="text"
               placeholder="mobile no"
               className="input-text outline-none rounded-lg px-3"
             />
             <input
+              id="city"
               type="text"
               placeholder="city"
               className="input-text outline-none rounded-lg px-3"
