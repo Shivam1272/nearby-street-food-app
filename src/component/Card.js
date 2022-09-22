@@ -2,7 +2,7 @@ import React from "react";
 
 function Card({ name, shopName, location }) {
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-1 rounded-md shadow-md overflow-hidden p-2">
+    <div className="w-[200px] grid md:grid-cols-2 lg:grid-cols-1 rounded-md shadow-md overflow-hidden p-2">
       <div>
         <img src="./images/nearby.png" alt="" />
       </div>

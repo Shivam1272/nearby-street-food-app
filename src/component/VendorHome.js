@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-import Home from "./Map";
 import Features from "./Features";
 import { Menu, Transition } from "@headlessui/react";
+import Mapbox from "./Map";
 
 function VendorHome() {
   let [features, setShowFeature] = useState(false);
@@ -10,8 +10,13 @@ function VendorHome() {
   let [guideliance, setShowGuideliance] = useState(false);
   let [help, setShowHelp] = useState(false);
   let [about, setShowAbout] = useState(false);
+  let [map, setShowMap] = useState(false);
   let handleOnClose = () => {
     setShowFeature(false);
+  };
+
+  let handleMap = () => {
+    setShowMap(!map);
   };
 
   let handleClick = (item) => {
@@ -152,9 +157,10 @@ function VendorHome() {
       </div>
       <div className="p-10 grid md:grid-cols-2 gap-3">
         {/* MAP FOR CURRENT LOCATION */}
-        <div className="">
-          <Home />
-          <img src="./images/map.png" alt="" />
+        <div className="lg:w-64 lg:h-64">
+          {map && <Mapbox width="300px" height="250px" />}
+          <button onClick={handleMap}>Show Map</button>
+          {/* <img src="./images/map.png" alt="" /> */}
         </div>
         {/* SHOP DETAIL */}
         <div className="flex flex-col p-5  justify-center bg-slate-600 rounded-lg text-white">
