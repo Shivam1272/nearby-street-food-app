@@ -11,6 +11,10 @@ function VendorHome() {
   let [help, setShowHelp] = useState(false);
   let [about, setShowAbout] = useState(false);
   let [map, setShowMap] = useState(false);
+  let [status, setStatus] = useState("is Close");
+  let [latitude, setLatitude] = useState();
+  let [longitude, setLongitude] = useState();
+
   let handleOnClose = () => {
     setShowFeature(false);
   };
@@ -19,24 +23,46 @@ function VendorHome() {
     setShowMap(!map);
   };
 
+  let isOpenClose = () => {
+    if (status === "is Close") {
+      setStatus("is Open");
+    } else {
+      setStatus("is Close");
+    }
+  };
+
+  let calLatLong = () => {
+    if (!navigator.geolocation) {
+      return alert("Geolocation is not support by your browser");
+    }
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+    });
+  };
+
   let handleClick = (item) => {
     if (item === "profile") {
       setShowHelp(false);
       setShowAbout(false);
       setShowProfile(true);
       setShowGuideliance(false);
+      setShowMap(false);
     } else if (item === "guideliance") {
       setShowHelp(false);
+      setShowMap(false);
       setShowAbout(false);
       setShowProfile(false);
       setShowGuideliance(true);
     } else if (item === "help") {
       setShowHelp(true);
+      setShowMap(false);
       setShowAbout(false);
       setShowProfile(false);
       setShowGuideliance(false);
     } else if (item === "about") {
       setShowAbout(true);
+      setShowMap(false);
       setShowHelp(false);
       setShowProfile(false);
       setShowGuideliance(false);
@@ -56,7 +82,7 @@ function VendorHome() {
         </div>
         <Menu
           as="div"
-          className="flex justify-between hover:cursor-pointer relative"
+          className="flex z-50 justify-between hover:cursor-pointer relative"
         >
           {({ open }) => (
             <Fragment>
@@ -158,8 +184,22 @@ function VendorHome() {
       <div className="p-10 grid md:grid-cols-2 gap-3">
         {/* MAP FOR CURRENT LOCATION */}
         <div className="lg:w-64 lg:h-64">
-          {map && <Mapbox width="300px" height="250px" />}
-          <button onClick={handleMap}>Show Map</button>
+          {map && (
+            <Mapbox
+              width="300px"
+              height="250px"
+              longitude={longitude}
+              latitude={latitude}
+            />
+          )}
+          <button
+            onClick={() => {
+              handleMap();
+              calLatLong();
+            }}
+          >
+            Show Map
+          </button>
           {/* <img src="./images/map.png" alt="" /> */}
         </div>
         {/* SHOP DETAIL */}
@@ -167,9 +207,17 @@ function VendorHome() {
           <span>SHOP NAME</span>
           <span>SHOP OWNER NAME</span>
           <span>SHOP LOCATION</span>
-          <span>SHOP STATUS</span>
+          <span>SHOP {status}</span>
           <div className=" mt-2 flex justify-center items-center">
-            <button className="rounded-3xl">SHOP IS OPEN</button>
+            <button
+              className="rounded-3xl"
+              onClick={() => {
+                isOpenClose();
+                calLatLong();
+              }}
+            >
+              SHOP IS OPEN
+            </button>
           </div>
         </div>
         {/* footer */}

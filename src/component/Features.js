@@ -13,7 +13,7 @@ function Features({ visible, profile, guideliance, help, about, onClose }) {
       {/* HEADING */}
       <div className=" rounded-2xl flex justify-around bg-white m-2">
         {/* CONTENT */}
-        <div className="pt-10">
+        <div className="pt-10 z-50">
           <Profile visible={profile} />
           <Guideliance visible={guideliance} />
           <Help visible={help} />

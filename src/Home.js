@@ -6,6 +6,20 @@ import Mapbox from "./component/Map";
 
 function Home() {
   let [map, setShowMap] = useState(false);
+  let [latitude, setLatitude] = useState();
+  let [longitude, setLongitude] = useState();
+
+  let calLatLong = () => {
+    if (!navigator.geolocation) {
+      return alert("Geolocation is not support by your browser");
+    }
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position);
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+      console.log(latitude, longitude);
+    });
+  };
   let handleMap = () => {
     setShowMap(!map);
   };
@@ -13,9 +27,23 @@ function Home() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center m-3 ">
-        {map && <Mapbox className=" m-44" width="400px" height="400px" />}
-        <button onClick={handleMap}>Show Map</button>
+      <div className="flex flex-col items-center justify-center pt-2 mx-5">
+        {map && (
+          <Mapbox
+            width={window.innerWidth - 40}
+            height={window.innerHeight * 0.4}
+            longitude={longitude}
+            latitude={latitude}
+          />
+        )}
+        <button
+          onClick={() => {
+            handleMap();
+            calLatLong();
+          }}
+        >
+          Show Map
+        </button>
       </div>
       <div className=" relative flex flex-col">
         <div className="px-2">
