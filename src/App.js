@@ -15,9 +15,7 @@ function App() {
           <Route path="/shopdetail" element={<ShopDetail />} />
         </Routes>
       </Router>
-      <footer className="">
-        <Footer />
-      </footer>
+      <Footer />
     </>
   );
 }

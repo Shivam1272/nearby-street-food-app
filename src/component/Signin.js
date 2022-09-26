@@ -13,7 +13,10 @@ function Signin({ isVisible, onClose }) {
     <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center h-screen z-50">
       <div className="mt-20 flex items-center justify-center">
         <div className="container h-96 w-96 bg-white bg-opacity-10 rounded-2xl shadow-5xl relative z-2 border border-opacity-30 border-r-0 border-b-0 backdrop-filter ">
-          <div className="px-4 pt-2 hover:cursor-pointer" onClick={onClose}>
+          <div
+            className="px-4 pt-2 hover:cursor-pointer text-white"
+            onClick={onClose}
+          >
             close X
           </div>
           <form className="h-full flex flex-col justify-evenly items-center">

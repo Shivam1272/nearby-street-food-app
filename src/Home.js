@@ -31,7 +31,7 @@ function Home() {
         {map && (
           <Mapbox
             width={window.innerWidth - 40}
-            height={window.innerHeight * 0.4}
+            height={window.innerHeight * 0.5}
             longitude={longitude}
             latitude={latitude}
           />
@@ -42,8 +42,144 @@ function Home() {
             calLatLong();
           }}
         >
-          Show Map
+          {map ? "Hide" : "Show"} Map
         </button>
+      </div>
+      <div className=" relative flex flex-col">
+        <div className="px-2">
+          <span>NearBy</span>
+        </div>
+        <div className="flex items-center overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-hide">
+          <Link
+            className="inline-block p-2 cursor-pointer "
+            to="/shopdetail"
+            state={{ name: "shivam", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Shivam" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Shubham", shopName: "Shree", city: "Thane" }}
+          >
+            <Card name="Shubham" shopName="Shree" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Mahendra", shopName: "OM Sai", city: "Thane" }}
+          >
+            <Card name="Mahendra" shopName="OM sai" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "siddhesh", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="siddhesh" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+        </div>
+      </div>
+      <div className=" relative flex flex-col">
+        <div className="px-2">
+          <span>NearBy</span>
+        </div>
+        <div className="flex items-center overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-hide">
+          <Link
+            className="inline-block p-2 cursor-pointer "
+            to="/shopdetail"
+            state={{ name: "shivam", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Shivam" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Shubham", shopName: "Shree", city: "Thane" }}
+          >
+            <Card name="Shubham" shopName="Shree" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Mahendra", shopName: "OM Sai", city: "Thane" }}
+          >
+            <Card name="Mahendra" shopName="OM sai" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "siddhesh", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="siddhesh" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+          <Link
+            to="/shopdetail"
+            state={{ name: "Govinda", shopName: "OM", city: "Thane" }}
+          >
+            <Card name="Govinda" shopName="OM" city="Thane" />
+          </Link>
+        </div>
       </div>
       <div className=" relative flex flex-col">
         <div className="px-2">
