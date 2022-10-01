@@ -1,47 +1,45 @@
-import "mapbox-gl/dist/mapbox-gl.css";
-import Map, {
-  Marker,
-  NavigationControl,
-  FullscreenControl,
-  GeolocateControl,
-} from "react-map-gl";
-import { useEffect, useState } from "react";
+import "../App.css";
+import { Icon } from "leaflet";
+import React from "react";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
-function Mapbox({ width, height, longitude, latitude }) {
-  // eslint-disable-next-line
-  let [lng, setLng] = useState(longitude);
-  // eslint-disable-next-line
-  let [lat, setLat] = useState(latitude);
-  useEffect(() => {
-    if (latitude && longitude) {
-      setLat(latitude);
-      setLng(longitude);
-    }
-  }, [longitude, latitude]);
-  console.log(lat, lng, latitude, longitude);
-  return (
-    <div className="-z-0">
-      <Map
-        mapboxAccessToken={process.env.REACT_APP_MAP_KEY}
-        style={{
-          width: width,
-          height: height,
-          borderRadius: "15px",
-          border: "2px solid red",
-        }}
-        initialViewState={{
-          longitude: lng,
-          latitude: lat,
-        }}
-        mapStyle="mapbox://styles/mapbox/streets-v11"
-      >
-        <Marker longitude={lng} latitude={lat} />
-        <NavigationControl className="-z-0" position="bottom-right" />
-        <FullscreenControl className="-z-0" position="bottom-left" />
-        <GeolocateControl className="-z-0" position="bottom-left" />
-      </Map>
-    </div>
-  );
+export const icon = new Icon({
+  iconUrl: "/skateboarding.svg",
+  iconSize: [25, 25],
+});
+
+function Map({ latitude, longitude }) {
+  if (latitude && longitude) {
+    return (
+      <div className="m-2 flex justify-center">
+        <MapContainer
+          className="leaflet-container -z-0"
+          center={[latitude, longitude]}
+          zoom={14}
+          scrollWheelZoom={true}
+          style={{
+            height: window.innerHeight * 0.7,
+            width: window.innerWidth,
+          }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={[latitude, longitude]}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>
+          <Marker position={[19, 72]}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>
+        </MapContainer>
+      </div>
+    );
+  }
 }
 
-export default Mapbox;
+export default Map;

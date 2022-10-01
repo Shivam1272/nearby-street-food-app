@@ -3,6 +3,7 @@ import Home from "./Home";
 import Footer from "./component/Footer";
 import VendorHome from "./component/VendorHome";
 import ShopDetail from "./component/ShopDetail";
+import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {

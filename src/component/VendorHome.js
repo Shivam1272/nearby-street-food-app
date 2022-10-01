@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import Features from "./Features";
 import { Menu, Transition } from "@headlessui/react";
-import Mapbox from "./Map";
+import Map from "./Map";
 
 function VendorHome() {
   let [features, setShowFeature] = useState(false);
@@ -181,46 +181,23 @@ function VendorHome() {
           )}
         </Menu>
       </div>
-      <div className="p-10 grid md:grid-cols-2 gap-3">
-        {/* MAP FOR CURRENT LOCATION */}
-        <div className="lg:w-64 lg:h-64">
-          {map && (
-            <Mapbox
-              width="300px"
-              height="250px"
-              longitude={longitude}
-              latitude={latitude}
-            />
-          )}
+      <Map latitude={latitude} longitude={longitude} />
+      <div className="flex flex-col lg:w-1/4 w-11/12 mx-auto my-4 p-5  justify-center bg-slate-600 rounded-lg text-white">
+        <span>SHOP NAME</span>
+        <span>SHOP OWNER NAME</span>
+        <span>SHOP LOCATION</span>
+        <span>SHOP {status}</span>
+        <div className=" mt-2 flex justify-center items-center">
           <button
+            className="rounded-3xl"
             onClick={() => {
-              handleMap();
+              isOpenClose();
               calLatLong();
             }}
           >
-            Show Map
+            SHOP IS OPEN
           </button>
-          {/* <img src="./images/map.png" alt="" /> */}
         </div>
-        {/* SHOP DETAIL */}
-        <div className="flex flex-col p-5  justify-center bg-slate-600 rounded-lg text-white">
-          <span>SHOP NAME</span>
-          <span>SHOP OWNER NAME</span>
-          <span>SHOP LOCATION</span>
-          <span>SHOP {status}</span>
-          <div className=" mt-2 flex justify-center items-center">
-            <button
-              className="rounded-3xl"
-              onClick={() => {
-                isOpenClose();
-                calLatLong();
-              }}
-            >
-              SHOP IS OPEN
-            </button>
-          </div>
-        </div>
-        {/* footer */}
       </div>
       <Features
         visible={features}
