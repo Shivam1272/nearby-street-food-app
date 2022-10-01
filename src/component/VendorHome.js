@@ -19,10 +19,6 @@ function VendorHome() {
     setShowFeature(false);
   };
 
-  let handleMap = () => {
-    setShowMap(!map);
-  };
-
   let isOpenClose = () => {
     if (status === "is Close") {
       setStatus("is Open");
