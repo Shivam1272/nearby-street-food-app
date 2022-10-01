@@ -1,5 +1,4 @@
 import React from "react";
-// import Tilt from "react-parallax-tilt";
 import { useNavigate } from "react-router-dom";
 
 function Login({ isVisible, onClose }) {
