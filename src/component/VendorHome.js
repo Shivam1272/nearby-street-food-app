@@ -1,8 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Features from "./Features";
 import { Menu, Transition } from "@headlessui/react";
 import Map from "./Map";
+import geoLocation from "../utils/geoLocation";
+import useGeolocation from "react-hook-geolocation";
 
 function VendorHome() {
   let [features, setShowFeature] = useState(false);
@@ -10,32 +12,56 @@ function VendorHome() {
   let [guideliance, setShowGuideliance] = useState(false);
   let [help, setShowHelp] = useState(false);
   let [about, setShowAbout] = useState(false);
-  let [map, setShowMap] = useState(false);
   let [status, setStatus] = useState("is Close");
-  let [latitude, setLatitude] = useState();
-  let [longitude, setLongitude] = useState();
+  let [latitude, setLatitude] = useState(0);
+  let [longitude, setLongitude] = useState(0);
+  let [city, setCity] = useState();
+  let [bool, setBool] = useState();
+  const geolocation = useGeolocation({
+    enableHighAccuracy: true,
+    maximumAge: 15000,
+    timeout: 12000,
+  });
+
+  console.log("adjnfj", geolocation);
 
   let handleOnClose = () => {
     setShowFeature(false);
   };
 
-  let isOpenClose = () => {
+  let isOpenClose = async (e) => {
     if (status === "is Close") {
       setStatus("is Open");
+      setBool(false);
     } else {
       setStatus("is Close");
+      setBool(true);
     }
-  };
-
-  let calLatLong = () => {
-    if (!navigator.geolocation) {
-      return alert("Geolocation is not support by your browser");
-    }
-    navigator.geolocation.getCurrentPosition((position) => {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
+    // eslint-disable-next-line
+    let res = await fetch("/vendors/update/me", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        openOrClosedstatus: bool,
+        addressCoords: {
+          lat: latitude,
+          long: longitude,
+        },
+      }),
     });
   };
+
+  const setValue = (data) => {
+    setLatitude(data.latitude);
+    setLongitude(data.longitude);
+    setCity(data.city);
+  };
+
+  // useEffect(() => {
+  //   geoLocation(setValue);
+  // }, [latitude, longitude]);
 
   let handleClick = (item) => {
     if (item === "profile") {
@@ -43,28 +69,29 @@ function VendorHome() {
       setShowAbout(false);
       setShowProfile(true);
       setShowGuideliance(false);
-      setShowMap(false);
     } else if (item === "guideliance") {
       setShowHelp(false);
-      setShowMap(false);
       setShowAbout(false);
       setShowProfile(false);
       setShowGuideliance(true);
     } else if (item === "help") {
       setShowHelp(true);
-      setShowMap(false);
       setShowAbout(false);
       setShowProfile(false);
       setShowGuideliance(false);
     } else if (item === "about") {
       setShowAbout(true);
-      setShowMap(false);
       setShowHelp(false);
       setShowProfile(false);
       setShowGuideliance(false);
     }
     setShowFeature(true);
   };
+
+  const [vendorData, setvendorData] = useState({});
+  useEffect(() => {
+    setvendorData(JSON.parse(localStorage.getItem("vendorData")));
+  }, []);
 
   return (
     <>
@@ -167,7 +194,7 @@ function VendorHome() {
                         }`}
                       >
                         <i className="fa fa-user" />
-                        <span className="p-2">Sign in</span>
+                        <span className="p-2">Log out</span>
                       </div>
                     )}
                   </Menu.Item>
@@ -177,21 +204,25 @@ function VendorHome() {
           )}
         </Menu>
       </div>
-      <Map latitude={latitude} longitude={longitude} />
+      <Map
+        latitude={latitude}
+        longitude={longitude}
+        address={city}
+        vendorData={null}
+      />
       <div className="flex flex-col lg:w-1/4 w-11/12 mx-auto my-4 p-5  justify-center bg-slate-600 rounded-lg text-white">
-        <span>SHOP NAME</span>
-        <span>SHOP OWNER NAME</span>
-        <span>SHOP LOCATION</span>
+        <span>SHOP NAME {vendorData.shopName}</span>
+        <span>SHOP OWNER NAME {vendorData.name}</span>
+        <span>SHOP LOCATION {vendorData.addressName}</span>
         <span>SHOP {status}</span>
         <div className=" mt-2 flex justify-center items-center">
           <button
             className="rounded-3xl"
             onClick={() => {
               isOpenClose();
-              calLatLong();
             }}
           >
-            SHOP IS OPEN
+            SHOP {status}
           </button>
         </div>
       </div>

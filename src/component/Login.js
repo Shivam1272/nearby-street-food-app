@@ -1,10 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+import PopupMessage from "./PopupMessage";
 import { useNavigate } from "react-router-dom";
 
 function Login({ isVisible, onClose }) {
   let navigate = useNavigate();
-  let handleClick = () => {
-    navigate("/home");
+  const [visible, setVisible] = useState(false);
+  let message = "";
+  let [loginDetail, setLogin] = useState({
+    name: "",
+    password: "",
+  });
+
+  let name, value;
+  const handleInput = (e) => {
+    name = e.target.name;
+    value = e.target.value;
+    setLogin({ ...loginDetail, [name]: value });
+  };
+
+  let handleClick = async (e) => {
+    e.preventDefault();
+    const { name, password } = loginDetail;
+
+    let res = await fetch("/vendors/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        password,
+      }),
+    });
+    let data = await res.json();
+    console.log(data);
+    if (data.success === false) {
+      window.alert("Invalid Credential");
+    } else {
+      setVisible(true);
+      message = "Login SuccessFull";
+      localStorage.setItem("vendorData", JSON.stringify(data.vendor));
+      navigate("/home");
+    }
   };
 
   if (!isVisible) return null;
@@ -22,12 +59,16 @@ function Login({ isVisible, onClose }) {
             </div>
             <input
               type="text"
+              name="name"
               placeholder="username"
+              onChange={handleInput}
               className="input-text outline-none rounded-lg px-2"
             />
             <input
-              type="text"
-              placeholder="mobile no"
+              type="password"
+              name="password"
+              onChange={handleInput}
+              placeholder="password"
               className="input-text outline-none rounded-lg px-3"
             />
             <button
@@ -39,6 +80,7 @@ function Login({ isVisible, onClose }) {
           </form>
         </div>
       </div>
+      <PopupMessage visible={visible} message={message} />
     </div>
   );
 }

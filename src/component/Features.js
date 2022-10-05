@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 function Features({ visible, profile, guideliance, help, about, onClose }) {
   if (!visible) return null;
@@ -27,6 +27,13 @@ function Features({ visible, profile, guideliance, help, about, onClose }) {
 export default Features;
 
 function Profile({ visible }) {
+  const [vendorData, setvendorData] = useState({});
+  useEffect(() => {
+    setvendorData(JSON.parse(localStorage.getItem("vendorData")));
+    // console.log(vendorData);
+    console.log(vendorData.address);
+  }, []);
+
   if (!visible) return null;
   return (
     <div className="m-2 rounded-lg flex flex-col justify-evenly">
@@ -41,28 +48,28 @@ function Profile({ visible }) {
             <i className="fa fa-user" />
             <span className="p-2">Name</span>
           </label>
-          <span>XYZ</span>
+          <span>{vendorData.name}</span>
         </div>
         <div className="flex justify-between items-center my-2">
           <label className="font-bold text-sm">
             <i className="fa fa-phone" />
             <span className="p-2">mobile</span>
           </label>
-          <span>99XXX XXXXX</span>
+          <span>{vendorData.contactNo}</span>
         </div>
         <div className="flex justify-between items-center my-2">
           <label className="font-bold text-sm">
             <i className="fa fa-truck" />
             <span className="p-2">Shop Name</span>
           </label>
-          <label>ABC</label>
+          <label>{vendorData.shopName}</label>
         </div>
         <div className="flex justify-between items-center my-2">
           <label className="font-bold text-sm">
             <i className="fa fa-location" />
             <span className="p-2">City</span>
           </label>
-          <label>Thane</label>
+          <label>{vendorData.addressName}</label>
         </div>
         <div className="flex justify-between items-center my-2">
           <label className="font-bold text-sm">
