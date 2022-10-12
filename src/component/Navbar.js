@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Login from "./Login";
-import Signin from "./Signin";
+import Register from "./Register";
 
 function Navbar() {
-  let [showSignin, setshowSignin] = useState(false);
-  let [showLogin, setshowLogin] = useState(false);
+  let [showRegister, setshowRegister] = useState(false);
 
   let handleOnClose = () => {
-    setshowLogin(false);
-    setshowSignin(false);
+    setshowRegister(false);
   };
 
   return (
@@ -27,23 +24,22 @@ function Navbar() {
           <button
             className="px-3 hover:text-white hover:border-b-2"
             onClick={() => {
-              setshowLogin(true);
+              setshowRegister(true);
             }}
           >
-            Log in
+            Register
           </button>
-          <button
+          {/* <button
             className="px-3 hover:text-white hover:border-b-2"
             onClick={() => {
               setshowSignin(true);
             }}
           >
             Sign in
-          </button>
+          </button> */}
         </div>
       </div>
-      <Login isVisible={showLogin} onClose={handleOnClose} />
-      <Signin isVisible={showSignin} onClose={handleOnClose} />
+      <Register isVisible={showRegister} onClose={handleOnClose} />
     </div>
   );
 }

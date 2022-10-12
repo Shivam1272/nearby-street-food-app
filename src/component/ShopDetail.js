@@ -1,65 +1,138 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import ReactCardFlip from "react-card-flip";
+import { useNavigate } from "react-router-dom";
 
-function ShopDetail() {
-  let location = useLocation();
-  let handleClick = () => {};
+function ShopDetail({ vendor }) {
+  let navigate = useNavigate();
+  const [isFlipped, setisFlipped] = useState(true);
+  let [imageUrl, setUrl] = useState();
+  let [menuItem, setMenuItem] = useState();
+
+  // load menu items
+  const load_menu = async () => {
+    let res = await fetch(`/vendors/${vendor._id}/get/menuItem`, {
+      method: "GET",
+    });
+
+    let data = await res.json();
+    if (data) {
+      setMenuItem(data);
+    }
+  };
+
+  // load menu image
+  const load_pic = async () => {
+    const url = `/vendors/documents/${vendor._id}/get/menuImage`;
+    const options = {
+      method: "GET",
+    };
+    let response = await fetch(url, options);
+    const imageBlob = await response.blob();
+    const imageObjectURL = URL.createObjectURL(imageBlob);
+    setUrl(imageObjectURL);
+  };
+
+  useEffect(() => {
+    load_pic();
+    load_menu();
+  }, []);
+
+  const handleClick = () => {
+    setisFlipped(!isFlipped);
+  };
+
+  let handleSubmit = () => {
+    navigate("/takeaway", {
+      state: { vendor: vendor, menuItem: menuItem, imageUrl: imageUrl },
+    });
+  };
+
   return (
     <>
-      <Link
-        to="/"
-        className="flex justify-start items-center p-4 bg-orange-400"
+      <ReactCardFlip
+        isFlipped={isFlipped}
+        flipDirection="horizontal"
+        className="z-50"
       >
-        <i className="fa fa-arrow-left" />
-        <h1 className="px-2 font-mono font-bold">nearby</h1>
-      </Link>
-      <div className="flex flex-col items-center w-full">
-        <div className="">
-          <img src="./images/nearby.png" alt="" />
-        </div>
-        <div className="flex flex-col p-5 w-72 rounded-lg shadow-lg bg-slate-600 m-4">
-          <div>
-            <div className="flex justify-between items-center my-2">
-              <span className="font-bold text-sm">Name</span>
-              <span className=" text-white">{location.state.name}</span>
-            </div>
-            <div className="flex justify-between items-center my-2">
-              <span className="font-bold text-sm">Shop Name</span>
-              <span className=" text-white">{location.state.shopName}</span>
-            </div>
-            <div className="flex justify-between items-center my-2">
-              <span className="font-bold text-sm">City</span>
-              <span className=" text-white">{location.state.addressName}</span>
-            </div>
-            <div
-              className="flex justify-center items-center my-2"
+        <div className="flex flex-col justify-center items-center">
+          <div className="">
+            <img src={imageUrl} alt="Menu Card is not there!!" />
+          </div>
+          <div className="font-bold text-white flex justify-between items-center">
+            <button
+              className="bg-orange-400 rounded-2xl p-2 flex items-center justify-center mt-2 mx-1"
               onClick={() => {
                 handleClick();
               }}
             >
-              <span className="font-bold text-sm">Menu Card</span>
-            </div>
+              Shop Detail
+            </button>
+            <button
+              disabled={!vendor.takeAwayOrderstatus.byVendor}
+              className={`rounded-2xl p-2 flex justify-center items-center mt-2 mx-1 font-bold ${
+                vendor.takeAwayOrderstatus.admin ? "bg-lime-400" : "bg-red-400"
+              }`}
+            >
+              take away
+            </button>
           </div>
-          <div className="text-white flex flex-col  w-full justify-between mt-2 ">
-            <div className="bg-orange-400 rounded-2xl p-2 flex items-center justify-center mt-2">
-              <i className="fa fa-route" />
-              <button className="font-bold pl-2">navigate</button>
+        </div>
+        <div className="flex items-center justify-center w-full bg-slate-600">
+          <div className="flex flex-col p-5 w-full rounded-lg shadow-lg">
+            <div>
+              <div className="flex justify-between items-center my-2">
+                <span className="font-bold text-sm">Shop Name</span>
+                <span className=" text-white">{vendor.shopName}</span>
+              </div>
+              <div className="flex justify-between items-center my-2">
+                <span className="font-bold text-sm">City</span>
+                <span className=" text-white">
+                  {vendor.address.fulladdress}
+                </span>
+              </div>
+              <div className="justify-between items-center my-2 flex flex-wrap w-full">
+                {menuItem &&
+                  menuItem.map((item) => {
+                    return (
+                      <span
+                        key={item.foodName}
+                        className=" text-white rounded-md shadow-md m-1 p-1 font-bold"
+                      >
+                        {item.foodName}
+                      </span>
+                    );
+                  })}
+              </div>
             </div>
-            <div className="">
-              <button
-                disabled={!location.state.takeAwayOrderstatus}
-                className={`w-full rounded-2xl p-2 flex justify-center items-center mt-2 font-bold ${
-                  location.state.takeAwayOrderstatus
-                    ? "bg-lime-400"
-                    : "bg-red-400"
-                }`}
-              >
-                take away
-              </button>
+            <div className="text-white flex flex-col  w-full justify-between mt-2 ">
+              <div className="bg-orange-400 rounded-2xl p-2 flex items-center justify-center mt-2">
+                <i className="fa-regular fa-pot-food" />
+                <button
+                  className="font-bold pl-2"
+                  onClick={() => {
+                    handleClick();
+                  }}
+                >
+                  Menu Card
+                </button>
+              </div>
+              <div className="">
+                <button
+                  disabled={!vendor.takeAwayOrderstatus.byVendor}
+                  className={`w-full rounded-2xl p-2 flex justify-center items-center mt-2 font-bold ${
+                    vendor.takeAwayOrderstatus.admin
+                      ? "bg-lime-400"
+                      : "bg-red-400"
+                  }`}
+                  onClick={handleSubmit}
+                >
+                  take away
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </ReactCardFlip>
     </>
   );
 }

@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-import PopupMessage from "./PopupMessage";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login({ isVisible, onClose }) {
+  let vendorDetail;
   let navigate = useNavigate();
-  const [visible, setVisible] = useState(false);
-  let message = "";
   let [loginDetail, setLogin] = useState({
     name: "",
     password: "",
@@ -28,19 +26,18 @@ function Login({ isVisible, onClose }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name,
-        password,
+        vendorName: name,
+        password: password,
       }),
     });
     let data = await res.json();
-    console.log(data);
+    if (data) {
+      vendorDetail = data.userorvendor;
+    }
     if (data.success === false) {
       window.alert("Invalid Credential");
     } else {
-      setVisible(true);
-      message = "Login SuccessFull";
-      localStorage.setItem("vendorData", JSON.stringify(data.vendor));
-      navigate("/home");
+      navigate("/home", { state: { vendorDetail } });
     }
   };
 
@@ -80,7 +77,6 @@ function Login({ isVisible, onClose }) {
           </form>
         </div>
       </div>
-      <PopupMessage visible={visible} message={message} />
     </div>
   );
 }

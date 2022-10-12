@@ -2,7 +2,6 @@ import Map from "./component/Map";
 import Navbar from "./component/Navbar";
 import React, { useState, useEffect } from "react";
 import geoLocation from "./utils/geoLocation";
-import useGeolocation from "react-hook-geolocation";
 
 function Home() {
   let [city, setCity] = useState("");
@@ -12,14 +11,6 @@ function Home() {
   const fetchData = async () => {
     await geoLocation(setValue);
   };
-
-  const geolocation = useGeolocation({
-    enableHighAccuracy: true,
-    maximumAge: 15000,
-    timeout: 12000,
-  });
-
-  console.log("adjnfj", geolocation);
 
   const setValue = async (data) => {
     setLatitude(data.latitude);
@@ -31,7 +22,9 @@ function Home() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        addressName: data.city,
+        shopLocation: {
+          city: city,
+        },
       }),
     });
     let data1 = await res.json();
@@ -40,6 +33,7 @@ function Home() {
       setvendorData(data1);
     }
   };
+
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function VendorDetail({
@@ -9,7 +9,6 @@ function VendorDetail({
   menuItem,
   takeAwayOrderstatus,
 }) {
-  console.log(shopName, name);
   let navigate = useNavigate();
 
   let handleClick = () => {
@@ -24,6 +23,16 @@ function VendorDetail({
       },
     });
   };
+
+  useEffect(() => {}, [
+    shopName,
+    name,
+    openOrClosedstatus,
+    addressName,
+    menuItem,
+    takeAwayOrderstatus,
+  ]);
+
   return (
     <div className="flex flex-col items-center bg-lime-400 text-white font-bold">
       <div className="p-1">
@@ -33,7 +42,7 @@ function VendorDetail({
         <br />
         <span>SHOP LOCATION: {addressName}</span>
         <br />
-        {openOrClosedstatus ? (
+        {{ openOrClosedstatus } ? (
           <span>SHOP is Open</span>
         ) : (
           <span>SHOP is Close</span>

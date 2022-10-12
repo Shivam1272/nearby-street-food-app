@@ -1,37 +1,25 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Features from "./Features";
+import UserFeatures from "./UserFeatures";
 import { Menu, Transition } from "@headlessui/react";
-import Map from "./Map";
-import geoLocation from "../utils/geoLocation";
+import Map from "../Map";
+import geoLocation from "../../utils/geoLocation";
 
-function VendorHome() {
+function UserHome() {
   let location = useLocation();
   let navigate = useNavigate();
   let [city, setCity] = useState();
-  let [bool, setBool] = useState();
   let [help, setShowHelp] = useState(false);
   let [latitude, setLatitude] = useState(0);
-  let [longitude, setLongitude] = useState(0);
+  let [userData, setuserData] = useState();
   let [about, setShowAbout] = useState(false);
-  let [status, setStatus] = useState("is Close");
+  let [longitude, setLongitude] = useState(0);
+  let [vendorData, setvendorData] = useState();
   let [profile, setShowProfile] = useState(true);
-  let [shopLocation, setshopLocation] = useState();
-  let [features, setShowFeature] = useState(false);
-  let [document, setShowDocument] = useState(false);
-  let [guideliance, setShowGuideliance] = useState(false);
-
-  const [vendorData, setvendorData] = useState({});
-  useEffect(() => {
-    setvendorData(location.state.vendorDetail);
-  }, []);
-
-  let handleOnClose = () => {
-    setShowFeature(false);
-  };
+  let [userfeatures, setShowuserFeature] = useState(false);
 
   let logout = async () => {
-    let res = await fetch("/vendors/logout", {
+    let res = await fetch("/users/logout", {
       method: "POST",
     });
     console.log(res);
@@ -41,81 +29,52 @@ function VendorHome() {
     }
   };
 
-  let isOpenClose = async (e) => {
-    if (status === "is Close") {
-      setStatus("is Open");
-      setBool(false);
-    } else {
-      setStatus("is Close");
-      setBool(true);
-    }
-    // console.log(bool, longitude, latitude);
-    // eslint-disable-next-line
-    let res = await fetch("/vendors/update/me", {
-      method: "PATCH",
+  let handleOnClose = () => {
+    setShowuserFeature(false);
+  };
+
+  const setValue = async (data) => {
+    setLatitude(data.latitude);
+    setLongitude(data.longitude);
+    setCity(data.city);
+    let res = await fetch("/admin/vendors/all", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        openOrClosedstatus: bool,
         shopLocation: {
-          location: shopLocation,
           city: city,
-        },
-        addressCoords: {
-          lat: latitude,
-          long: longitude,
         },
       }),
     });
-    let data = await res.json();
-    setvendorData(data);
-  };
-
-  const setValue = (data) => {
-    setCity(data.city);
-    setLatitude(data.latitude);
-    setLongitude(data.longitude);
-    setshopLocation(data.shopLocation);
+    let data1 = await res.json();
+    if (!data1) {
+    } else {
+      setvendorData(data1);
+    }
   };
 
   useEffect(() => {
+    setuserData(location.state.userDetail);
     geoLocation(setValue);
-  }, [latitude, longitude, shopLocation, city]);
+  }, [latitude, longitude, userData]);
 
   let handleClick = (item) => {
     if (item === "profile") {
       setShowHelp(false);
       setShowAbout(false);
       setShowProfile(true);
-      setShowGuideliance(false);
-      setShowDocument(false);
-    } else if (item === "guideliance") {
-      setShowDocument(false);
-      setShowHelp(false);
-      setShowAbout(false);
-      setShowProfile(false);
-      setShowGuideliance(true);
     } else if (item === "help") {
       setShowHelp(true);
-      setShowDocument(false);
-      setShowProfile(false);
       setShowAbout(false);
-      setShowGuideliance(false);
+      setShowProfile(false);
     } else if (item === "about") {
       setShowAbout(true);
-      setShowDocument(false);
       setShowHelp(false);
       setShowProfile(false);
-      setShowGuideliance(false);
-    } else if (item === "documents") {
-      setShowAbout(false);
-      setShowHelp(false);
-      setShowProfile(false);
-      setShowGuideliance(false);
-      setShowDocument(true);
     }
-    setShowFeature(true);
+    setShowuserFeature(true);
   };
 
   return (
@@ -123,7 +82,7 @@ function VendorHome() {
       <div className="flex justify-between items-center p-4 bg-orange-300">
         {/* NAVBAR */}
         <div className="px-3 flex justify-between">
-          <Link to="/home">
+          <Link to="/userhome">
             <i className="fa fa-bowl-food" />
             <span className="px-3 font-mono font-bold">nearBy</span>
           </Link>
@@ -172,41 +131,11 @@ function VendorHome() {
                         className={`p-2 ${
                           active ? "bg-indigo-500" : "text-gray-700"
                         }`}
-                        onClick={() => {
-                          handleClick("documents");
-                        }}
                       >
-                        <i className="fa fa-user" />
-                        <span className="p-2">My Documents</span>
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
-                        }`}
-                      >
-                        <Link to="/vendor/order">
+                        <Link to="/user/myorder">
                           <i className="fa fa-user" />
-                          <span className="p-2">My Order</span>
+                          <span className="p-2">My Orders</span>
                         </Link>
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
-                        }`}
-                        onClick={() => {
-                          handleClick("guideliance");
-                        }}
-                      >
-                        <i className="fa fa-user" />
-                        <span className="p-2">Guideliance</span>
                       </div>
                     )}
                   </Menu.Item>
@@ -260,24 +189,16 @@ function VendorHome() {
           )}
         </Menu>
       </div>
-      <Map latitude={latitude} longitude={longitude} address={city} />
-      <div className="flex flex-col lg:w-1/4 w-11/12 mx-auto my-4 p-5  justify-center bg-slate-600 rounded-lg text-white">
-        <span>SHOP NAME {vendorData.shopName}</span>
-        <span>SHOP OWNER NAME {vendorData.vendorName}</span>
-        {/* <span>SHOP LOCATION {vendorData.address.city}</span> */}
-        <span>SHOP {status}</span>
-        <div className=" mt-2 flex justify-center items-center">
-          <button className="rounded-3xl" onClick={isOpenClose}>
-            SHOP {status}
-          </button>
-        </div>
-      </div>
-      <Features
-        vendor={vendorData}
-        visible={features}
+      <Map
+        latitude={latitude}
+        longitude={longitude}
+        city={city}
+        vendorData={vendorData}
+      />
+      <UserFeatures
+        user={userData}
+        visible={userfeatures}
         profile={profile}
-        documents={document}
-        guideliance={guideliance}
         help={help}
         about={about}
         onClose={handleOnClose}
@@ -285,5 +206,4 @@ function VendorHome() {
     </>
   );
 }
-
-export default VendorHome;
+export default UserHome;

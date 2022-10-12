@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
 import L from "leaflet";
+import ShopDetail from "./ShopDetail";
+import React, { useState, useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import VendorDetail from "./vendorDetail";
 
-function Map({ latitude, longitude, address, vendorData }) {
-  let [vendors, setVendor] = useState({});
+function Map({ latitude, longitude, city, vendorData }) {
+  let [vendors, setVendors] = useState();
   const setVendorData = () => {
-    setVendor(vendorData);
+    setVendors(vendorData);
   };
 
   let redMarkerIcon = new L.Icon({
@@ -25,7 +25,6 @@ function Map({ latitude, longitude, address, vendorData }) {
   useEffect(() => {
     setVendorData();
   }, [vendorData, latitude, longitude]);
-  console.log(vendors);
 
   if (latitude && longitude) {
     return (
@@ -36,7 +35,7 @@ function Map({ latitude, longitude, address, vendorData }) {
           zoom={14}
           scrollWheelZoom={true}
           style={{
-            height: window.innerHeight * 0.7,
+            height: window.innerHeight * 0.9,
             width: window.innerWidth,
           }}
         >
@@ -44,35 +43,33 @@ function Map({ latitude, longitude, address, vendorData }) {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {/* <Marker
+          <Marker
             position={[latitude, longitude]}
             // icon={<i className="fa fa-location" />}
           >
-            <Popup>Your Location : {address}</Popup>
-          </Marker> */}
+            <Popup>Your Location : {city}</Popup>
+          </Marker>
           {vendors &&
-            vendors.map((vendor) => (
-              <Marker
-                key={vendor.name}
-                position={[vendor.addressCoords.lat, vendor.addressCoords.long]}
-                icon={
-                  vendor.openOrCloseStatus ? greenMarkerIcon : redMarkerIcon
-                }
-              >
-                <Popup>
-                  <div className="bg-lime-400 rounded-md shadow-xl p-2 mt-2">
-                    <VendorDetail
-                      shopName={vendor.shopName}
-                      name={vendor.name}
-                      addressName={vendor.addressName}
-                      openOrCloseStatus={vendor.openOrCloseStatus}
-                      menuItem={vendor.menuItem}
-                      takeAwayOrderstatus={vendor.takeAwayOrderstatus}
-                    />
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
+            vendors.map((vendor) => {
+              return (
+                <Marker
+                  key={vendor.vendorName}
+                  position={[
+                    vendor.addressCoords.lat,
+                    vendor.addressCoords.long,
+                  ]}
+                  icon={
+                    vendor.openOrClosedstatus ? greenMarkerIcon : redMarkerIcon
+                  }
+                >
+                  <Popup>
+                    <div className="bg-slate-600 rounded-md shadow-xl p-2 ">
+                      <ShopDetail vendor={vendor} />
+                    </div>
+                  </Popup>
+                </Marker>
+              );
+            })}
         </MapContainer>
       </div>
     );

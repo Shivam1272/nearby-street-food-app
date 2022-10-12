@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import PopupMessage from "./PopupMessage";
 
 function Signin({ isVisible, onClose }) {
-  const [visible, setVisible] = useState(false);
-  let message = " ";
   const [vendor, setVendor] = useState({
     name: "",
     contactNo: "",
     password: "",
-    addressName: "",
+    fulladdress: "",
+    city: "",
     shopName: "",
   });
 
@@ -21,7 +19,7 @@ function Signin({ isVisible, onClose }) {
 
   let handleClick = async (e) => {
     e.preventDefault();
-    const { name, contactNo, password, addressName, shopName } = vendor;
+    const { name, contactNo, password, fulladdress, city, shopName } = vendor;
 
     let res = await fetch("/vendors/signin", {
       method: "POST",
@@ -29,21 +27,23 @@ function Signin({ isVisible, onClose }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name,
+        vendorName: name,
         contactNo,
-        password,
-        addressName,
         shopName,
+        address: {
+          fulladdress,
+          city,
+        },
+        password,
       }),
     });
 
     let data = await res.json();
+    console.log(data);
     if (data.success === false) {
       window.alert("Invalid Registration");
     } else {
       onClose();
-      setVisible(true);
-      message = "Registration SuccessFull";
     }
   };
 
@@ -52,7 +52,7 @@ function Signin({ isVisible, onClose }) {
     <>
       <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex flex-col items-center h-screen z-50">
         <div className="mt-20 flex items-center justify-center">
-          <div className="container h-[460px] w-96 bg-white bg-opacity-10 rounded-2xl shadow-5xl relative z-2 border border-opacity-30 border-r-0 border-b-0 backdrop-filter ">
+          <div className="container h-[500px] w-96 bg-white bg-opacity-10 rounded-2xl shadow-5xl relative z-2 border border-opacity-30 border-r-0 border-b-0 backdrop-filter ">
             <div
               className="px-4 pt-2 hover:cursor-pointer text-white"
               onClick={onClose}
@@ -85,20 +85,29 @@ function Signin({ isVisible, onClose }) {
                 className="input-text outline-none rounded-lg px-3"
               />
               <input
-                id="city"
-                type="text"
-                name="addressName"
-                placeholder="city"
-                value={vendor.addressName}
-                onChange={handleInput}
-                className="input-text outline-none rounded-lg px-3"
-              />
-              <input
                 id="shopName"
                 type="text"
                 name="shopName"
                 placeholder="Shop Name"
                 value={vendor.shopName}
+                onChange={handleInput}
+                className="input-text outline-none rounded-lg px-3"
+              />
+              <input
+                id="fulladdress"
+                type="text"
+                name="fulladdress"
+                placeholder="full address"
+                value={vendor.fulladdress}
+                onChange={handleInput}
+                className="input-text outline-none rounded-lg px-3"
+              />
+              <input
+                id="city"
+                type="text"
+                name="city"
+                placeholder="city"
+                value={vendor.city}
                 onChange={handleInput}
                 className="input-text outline-none rounded-lg px-3"
               />
@@ -121,7 +130,6 @@ function Signin({ isVisible, onClose }) {
           </div>
         </div>
       </div>
-      <PopupMessage visible={visible} message={message} />
     </>
   );
 }

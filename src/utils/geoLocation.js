@@ -1,9 +1,8 @@
 const geoLocation = async (callback) => {
-  let latitude, longitude, city;
+  let latitude, longitude, city, shopLocation;
   if ("geolocation" in navigator) {
     navigator.geolocation.watchPosition(
       async (position) => {
-        console.log(position);
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         let location = await fetch(
@@ -11,7 +10,8 @@ const geoLocation = async (callback) => {
         );
         let data = await location.json();
         city = data.address.City;
-        callback({ latitude, longitude, city });
+        shopLocation = data.address.Match_addr;
+        callback({ latitude, longitude, city, shopLocation });
       },
       (error) => {
         console.log("Error");
