@@ -27,15 +27,18 @@ function FoodItem({ item, menuItem, id }) {
   };
 
   const addToOrder = async () => {
-    let res = await fetch(`/users/order/${orderId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        orderDetails: foodItem,
-      }),
-    });
+    let res = await fetch(
+      `https://street-food-online-api.herokuapp.com/users/order/${orderId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderDetails: foodItem,
+        }),
+      }
+    );
   };
 
   useEffect(() => {

@@ -10,9 +10,12 @@ function ShopDetail({ vendor }) {
 
   // load menu items
   const load_menu = async () => {
-    let res = await fetch(`/vendors/${vendor._id}/get/menuItem`, {
-      method: "GET",
-    });
+    let res = await fetch(
+      `https://street-food-online-api.herokuapp.com/vendors/${vendor._id}/get/menuItem`,
+      {
+        method: "GET",
+      }
+    );
 
     let data = await res.json();
     if (data) {
@@ -22,7 +25,7 @@ function ShopDetail({ vendor }) {
 
   // load menu image
   const load_pic = async () => {
-    const url = `/vendors/documents/${vendor._id}/get/menuImage`;
+    const url = `https://street-food-online-api.herokuapp.com/vendors/documents/${vendor._id}/get/menuImage`;
     const options = {
       method: "GET",
     };

@@ -21,22 +21,25 @@ function Signin({ isVisible, onClose }) {
     e.preventDefault();
     const { name, contactNo, password, fulladdress, city, shopName } = vendor;
 
-    let res = await fetch("/vendors/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        vendorName: name,
-        contactNo,
-        shopName,
-        address: {
-          fulladdress,
-          city,
+    let res = await fetch(
+      "https://street-food-online-api.herokuapp.com/vendors/signin",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        password,
-      }),
-    });
+        body: JSON.stringify({
+          vendorName: name,
+          contactNo,
+          shopName,
+          address: {
+            fulladdress,
+            city,
+          },
+          password,
+        }),
+      }
+    );
 
     let data = await res.json();
     console.log(data);

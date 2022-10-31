@@ -16,17 +16,20 @@ function Home() {
     setLatitude(data.latitude);
     setLongitude(data.longitude);
     setCity(data.city);
-    let res = await fetch("/admin/vendors/all", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        shopLocation: {
-          city: city,
+    let res = await fetch(
+      "https://street-food-online-api.herokuapp.com/admin/vendors/all",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }),
-    });
+        body: JSON.stringify({
+          shopLocation: {
+            city: city,
+          },
+        }),
+      }
+    );
     let data1 = await res.json();
     if (!data1) {
     } else {

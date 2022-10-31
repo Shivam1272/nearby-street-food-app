@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Features({ user, visible, profile, help, about, onClose }) {
+function Features({ user, visible, profile, onClose }) {
   let [userDetail, setuser] = useState();
   useEffect(() => {
     setuser(user);
@@ -19,8 +19,6 @@ function Features({ user, visible, profile, help, about, onClose }) {
         {/* CONTENT */}
         <div className="pt-3 z-50">
           <Profile visible={profile} users={userDetail} />
-          <Help visible={help} />
-          <About visible={about} />
         </div>
       </div>
     </div>
@@ -41,9 +39,9 @@ function Profile({ visible, users }) {
           Personal Deatil
         </div>
         <div className="m-2 rounded-lg flex flex-col justify-evenly">
-          <div className="flex justify-between items-center">
+          {/* <div className="flex justify-between items-center">
             <h1 className=" font-mono font-bold text-lg">Edit</h1>
-          </div>
+          </div> */}
           <div className="flex flex-col">
             <div className="flex justify-between items-center my-2">
               <label className="font-bold text-sm">
@@ -71,13 +69,4 @@ function Profile({ visible, users }) {
       </div>
     </>
   );
-}
-
-function Help({ visible }) {
-  if (!visible) return null;
-  return <div className="m-2 rounded-lg">Help</div>;
-}
-function About({ visible }) {
-  if (!visible) return null;
-  return <div className="m-2 rounded-lg">About</div>;
 }

@@ -20,16 +20,19 @@ function Login({ isVisible, onClose }) {
     e.preventDefault();
     const { name, password } = loginDetail;
 
-    let res = await fetch("/vendors/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        vendorName: name,
-        password: password,
-      }),
-    });
+    let res = await fetch(
+      "https://street-food-online-api.herokuapp.com/vendors/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          vendorName: name,
+          password: password,
+        }),
+      }
+    );
     let data = await res.json();
     if (data) {
       vendorDetail = data.userorvendor;

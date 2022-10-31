@@ -6,7 +6,6 @@ function Features({
   visible,
   profile,
   documents,
-  guideliance,
   help,
   about,
   onClose,
@@ -31,7 +30,6 @@ function Features({
         <div className="pt-5 px-2 z-50">
           <Profile vendor={vendors} visible={profile} />
           <Documents visible={documents} vendor={vendors} />
-          <Guideliance visible={guideliance} />
           <Help visible={help} />
           <About visible={about} />
         </div>
@@ -52,7 +50,7 @@ function Profile({ vendor, visible }) {
   const [isFlipped, setisFlipped] = useState(true);
   const [enableTakeAway, setEnableTakeAway] = useState(false);
 
-  useEffect(() => {}, [vendor]);
+  useEffect(() => {}, [vendor, enableTakeAway]);
 
   const handleClick = () => {
     setisFlipped(!isFlipped);
@@ -71,10 +69,13 @@ function Profile({ vendor, visible }) {
     formData.append("hawkerLicense", hawker);
     formData.append("addressProof", address);
     formData.append("menuImage", menu);
-    let res = await fetch("/admin/vendor/upload/documents", {
-      method: "POST",
-      body: formData,
-    });
+    let res = await fetch(
+      "https://street-food-online-api.herokuapp.com/vendor/upload/documents",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
     let data = await res.json();
     if (data.success === true) {
       window.alert(data.message);
@@ -85,17 +86,20 @@ function Profile({ vendor, visible }) {
 
   const setTakeAway = async () => {
     setEnableTakeAway(!enableTakeAway);
-    let res = await fetch("/vendors/update/me", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        takeAwayOrderstatus: {
-          byVendor: enableTakeAway,
+    let res = await fetch(
+      "https://street-food-online-api.herokuapp.com/vendors/update/me",
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }),
-    });
+        body: JSON.stringify({
+          takeAwayOrderstatus: {
+            byVendor: enableTakeAway,
+          },
+        }),
+      }
+    );
   };
 
   if (!visible) return null;
@@ -107,9 +111,9 @@ function Profile({ vendor, visible }) {
             Personal Deatil
           </div>
           <div className="m-2 rounded-lg flex flex-col justify-evenly">
-            <div className="flex justify-between items-center">
+            {/* <div className="flex justify-between items-center">
               <h1 className=" font-mono font-bold text-lg">Edit</h1>
-            </div>
+            </div> */}
             {/* <img src="./images/map.png" alt="" /> */}
             <div className="flex flex-col">
               <div className="flex justify-between items-center my-2">
@@ -260,7 +264,7 @@ function Documents({ vendor, visible }) {
   let [param, setParam] = useState("menuImage");
   let [imageUrl, setUrl] = useState();
   const load_pic = async () => {
-    const url = `/vendors/documents/${vendorDetail._id}/get/${param}`;
+    const url = `https://street-food-online-api.herokuapp.com/vendors/documents/${vendorDetail._id}/get/${param}`;
     const options = {
       method: "GET",
     };
@@ -319,15 +323,6 @@ function Documents({ vendor, visible }) {
         </div>
       </div>
     </>
-  );
-}
-function Guideliance({ visible }) {
-  if (!visible) return null;
-  return (
-    <div className="m-2 rounded-lg">
-      Guideliance
-      <img src="./images/map.png" alt="" />
-    </div>
   );
 }
 function Help({ visible }) {

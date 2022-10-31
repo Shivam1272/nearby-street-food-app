@@ -90,9 +90,12 @@ function Orders({ orderData, vendor }) {
 function SingleOrderDiv({ singleOrder }) {
   let [vendor, setVendor] = useState();
   let vendorData = async () => {
-    let res = await fetch(`/vendors/${singleOrder.vendorName}`, {
-      method: "GET",
-    });
+    let res = await fetch(
+      `https://street-food-online-api.herokuapp.com/vendors/${singleOrder.vendorName}`,
+      {
+        method: "GET",
+      }
+    );
     let data = await res.json();
     setVendor(data);
   };
@@ -108,9 +111,12 @@ function MyOrders1() {
   let [allOrders, setAllOrders] = useState([]);
 
   let orderData = async () => {
-    let res = await fetch("/users/ordersdetails/me", {
-      method: "GET",
-    });
+    let res = await fetch(
+      "https://street-food-online-api.herokuapp.com/users/ordersdetails/me",
+      {
+        method: "GET",
+      }
+    );
     let data = await res.json();
     setAllOrders(data);
   };

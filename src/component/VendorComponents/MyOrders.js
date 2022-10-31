@@ -18,15 +18,18 @@ function InOrderDetail({ order }) {
 function Orders({ orderData, user }) {
   let [orderStatus, setOrderStatus] = useState();
   let updateOrderStatus = async () => {
-    let res = await fetch(`/vendors/update/order/${orderData._id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        orderStatus: orderStatus,
-      }),
-    });
+    let res = await fetch(
+      `https://street-food-online-api.herokuapp.com/vendors/update/order/${orderData._id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderStatus: orderStatus,
+        }),
+      }
+    );
     let data = await res.json();
   };
   useEffect(() => {
@@ -123,9 +126,12 @@ function Orders({ orderData, user }) {
 function SingleOrderDiv({ singleOrder }) {
   let [user, setUser] = useState();
   let userData = async () => {
-    let res = await fetch(`/users/${singleOrder.userName}`, {
-      method: "GET",
-    });
+    let res = await fetch(
+      `https://street-food-online-api.herokuapp.com/users/${singleOrder.userName}`,
+      {
+        method: "GET",
+      }
+    );
     let data = await res.json();
     setUser(data);
   };
@@ -141,9 +147,12 @@ function MyOrders() {
   let [allOrders, setAllOrders] = useState([]);
 
   let orderData = async () => {
-    let res = await fetch("/vendors/orders/me", {
-      method: "GET",
-    });
+    let res = await fetch(
+      "https://street-food-online-api.herokuapp.com/vendors/orders/me",
+      {
+        method: "GET",
+      }
+    );
     let data = await res.json();
     setAllOrders(data);
   };

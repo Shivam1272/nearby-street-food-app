@@ -19,18 +19,21 @@ function UserSignin({ isVisible, onClose }) {
     e.preventDefault();
     const { name, contactNo, city, password } = user;
 
-    let res = await fetch("/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        contactNo,
-        password,
-        city,
-      }),
-    });
+    let res = await fetch(
+      `https://street-food-online-api.herokuapp.com/users`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          contactNo,
+          password,
+          city,
+        }),
+      }
+    );
 
     let data = await res.json();
     console.log(data);

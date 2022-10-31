@@ -18,24 +18,30 @@ function TakeAway() {
   let [totalPrice, setTotalPrice] = useState(0);
 
   let fetchData = async () => {
-    let res = await fetch("/users/order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        vendorName: vendor._id,
-      }),
-    });
+    let res = await fetch(
+      "https://street-food-online-api.herokuapp.com/users/order",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          vendorName: vendor._id,
+        }),
+      }
+    );
     let data1 = await res.json();
     setData(data1._id);
   };
 
   let fetchOrder = async () => {
     setShowDetail(true);
-    let res = await fetch(`/users/orders/${data}`, {
-      method: "GET",
-    });
+    let res = await fetch(
+      `https://street-food-online-api.herokuapp.com/users/orders/${data}`,
+      {
+        method: "GET",
+      }
+    );
     let data2 = await res.json();
     setOrder(data2);
   };
@@ -51,15 +57,18 @@ function TakeAway() {
 
   // update total price of a order
   let updateOrder = async () => {
-    let res = await fetch(`/users/order/${data}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        totalPrice: totalPrice,
-      }),
-    });
+    let res = await fetch(
+      `https://street-food-online-api.herokuapp.com/users/order/${data}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          totalPrice: totalPrice,
+        }),
+      }
+    );
   };
 
   useEffect(() => {

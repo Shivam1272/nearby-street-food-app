@@ -19,9 +19,12 @@ function UserHome() {
   let [userfeatures, setShowuserFeature] = useState(false);
 
   let logout = async () => {
-    let res = await fetch("/users/logout", {
-      method: "POST",
-    });
+    let res = await fetch(
+      "https://street-food-online-api.herokuapp.com/users/logout",
+      {
+        method: "POST",
+      }
+    );
     console.log(res);
     if (res.status === 200) {
       window.alert(res.message);
@@ -37,17 +40,20 @@ function UserHome() {
     setLatitude(data.latitude);
     setLongitude(data.longitude);
     setCity(data.city);
-    let res = await fetch("/admin/vendors/all", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        shopLocation: {
-          city: city,
+    let res = await fetch(
+      "https://street-food-online-api.herokuapp.com/admin/vendors/all",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }),
-    });
+        body: JSON.stringify({
+          shopLocation: {
+            city: city,
+          },
+        }),
+      }
+    );
     let data1 = await res.json();
     if (!data1) {
     } else {
@@ -114,7 +120,7 @@ function UserHome() {
                     {({ active }) => (
                       <div
                         className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
+                          active ? "bg-lime-300" : "text-gray-700"
                         }`}
                         onClick={() => {
                           handleClick("profile");
@@ -127,56 +133,40 @@ function UserHome() {
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <div
-                        className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
-                        }`}
-                      >
-                        <Link to="/user/myorder">
-                          <i className="fa fa-user" />
+                      <Link to="/user/myorder">
+                        <div
+                          className={`p-2 ${
+                            active ? "bg-lime-300" : "text-gray-700"
+                          }`}
+                        >
+                          <i className="fa fa-burger" />
                           <span className="p-2">My Orders</span>
-                        </Link>
-                      </div>
+                        </div>
+                      </Link>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <Link to="/about">
+                        <div
+                          className={`p-2 ${
+                            active ? "bg-lime-300" : "text-gray-700"
+                          }`}
+                        >
+                          <i className="fa fa-people-group" />
+                          <span className="p-2">About</span>
+                        </div>
+                      </Link>
                     )}
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
                       <div
                         className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
-                        }`}
-                        onClick={() => {
-                          handleClick("help");
-                        }}
-                      >
-                        <i className="fa fa-user" />
-                        <span className="p-2">Help</span>
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
-                        }`}
-                        onClick={() => {
-                          handleClick("about");
-                        }}
-                      >
-                        <i className="fa fa-user" />
-                        <span className="p-2">About</span>
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
+                          active ? "bg-lime-300" : "text-gray-700"
                         }`}
                       >
-                        <i className="fa fa-user" />
+                        <i className="fa fa-right-from-bracket" />
                         <span className="p-2" onClick={logout}>
                           Log out
                         </span>

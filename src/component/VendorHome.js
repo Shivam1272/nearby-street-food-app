@@ -10,30 +10,30 @@ function VendorHome() {
   let navigate = useNavigate();
   let [city, setCity] = useState();
   let [bool, setBool] = useState();
-  let [help, setShowHelp] = useState(false);
   let [latitude, setLatitude] = useState(0);
   let [longitude, setLongitude] = useState(0);
-  let [about, setShowAbout] = useState(false);
   let [status, setStatus] = useState("is Close");
   let [profile, setShowProfile] = useState(true);
   let [shopLocation, setshopLocation] = useState();
   let [features, setShowFeature] = useState(false);
   let [document, setShowDocument] = useState(false);
-  let [guideliance, setShowGuideliance] = useState(false);
 
   const [vendorData, setvendorData] = useState({});
   useEffect(() => {
     setvendorData(location.state.vendorDetail);
-  }, []);
+  }, [bool]);
 
   let handleOnClose = () => {
     setShowFeature(false);
   };
 
   let logout = async () => {
-    let res = await fetch("/vendors/logout", {
-      method: "POST",
-    });
+    let res = await fetch(
+      `https://street-food-online-api.herokuapp.com/vendors/logout`,
+      {
+        method: "POST",
+      }
+    );
     console.log(res);
     if (res.status === 200) {
       window.alert(res.message);
@@ -49,25 +49,28 @@ function VendorHome() {
       setStatus("is Close");
       setBool(true);
     }
-    // console.log(bool, longitude, latitude);
+    console.log(bool, longitude, latitude);
     // eslint-disable-next-line
-    let res = await fetch("/vendors/update/me", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        openOrClosedstatus: bool,
-        shopLocation: {
-          location: shopLocation,
-          city: city,
+    let res = await fetch(
+      `https://street-food-online-api.herokuapp.com/vendors/update/me`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
-        addressCoords: {
-          lat: latitude,
-          long: longitude,
-        },
-      }),
-    });
+        body: JSON.stringify({
+          openOrClosedstatus: bool,
+          shopLocation: {
+            location: shopLocation,
+            city: city,
+          },
+          addressCoords: {
+            lat: latitude,
+            long: longitude,
+          },
+        }),
+      }
+    );
     let data = await res.json();
     setvendorData(data);
   };
@@ -85,34 +88,19 @@ function VendorHome() {
 
   let handleClick = (item) => {
     if (item === "profile") {
-      setShowHelp(false);
-      setShowAbout(false);
       setShowProfile(true);
-      setShowGuideliance(false);
       setShowDocument(false);
     } else if (item === "guideliance") {
       setShowDocument(false);
-      setShowHelp(false);
-      setShowAbout(false);
       setShowProfile(false);
-      setShowGuideliance(true);
     } else if (item === "help") {
-      setShowHelp(true);
       setShowDocument(false);
       setShowProfile(false);
-      setShowAbout(false);
-      setShowGuideliance(false);
     } else if (item === "about") {
-      setShowAbout(true);
       setShowDocument(false);
-      setShowHelp(false);
       setShowProfile(false);
-      setShowGuideliance(false);
     } else if (item === "documents") {
-      setShowAbout(false);
-      setShowHelp(false);
       setShowProfile(false);
-      setShowGuideliance(false);
       setShowDocument(true);
     }
     setShowFeature(true);
@@ -155,7 +143,7 @@ function VendorHome() {
                     {({ active }) => (
                       <div
                         className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
+                          active ? "bg-lime-300" : "text-gray-700"
                         }`}
                         onClick={() => {
                           handleClick("profile");
@@ -170,84 +158,67 @@ function VendorHome() {
                     {({ active }) => (
                       <div
                         className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
+                          active ? "bg-lime-300" : "text-gray-700"
                         }`}
                         onClick={() => {
                           handleClick("documents");
                         }}
                       >
-                        <i className="fa fa-user" />
+                        <i className="fa fa-file" />
                         <span className="p-2">My Documents</span>
                       </div>
                     )}
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <div
-                        className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
-                        }`}
-                      >
-                        <Link to="/vendor/order">
-                          <i className="fa fa-user" />
+                      <Link to="/vendor/order">
+                        <div
+                          className={`p-2 ${
+                            active ? "bg-lime-300" : "text-gray-700"
+                          }`}
+                        >
+                          <i className="fa fa-cookie" />
                           <span className="p-2">My Order</span>
-                        </Link>
-                      </div>
+                        </div>
+                      </Link>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <Link to="/vendor/guideliance">
+                        <div
+                          className={`p-2 ${
+                            active ? "bg-lime-300" : "text-gray-700"
+                          }`}
+                        >
+                          <i className="fa fa-book" />
+                          <span className="p-2">Guideliance</span>
+                        </div>
+                      </Link>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <Link to="/about">
+                        <div
+                          className={`p-2 ${
+                            active ? "bg-lime-300" : "text-gray-700"
+                          }`}
+                        >
+                          <i className="fa fa-people-group" />
+                          <span className="p-2">About</span>
+                        </div>
+                      </Link>
                     )}
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
                       <div
                         className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
-                        }`}
-                        onClick={() => {
-                          handleClick("guideliance");
-                        }}
-                      >
-                        <i className="fa fa-user" />
-                        <span className="p-2">Guideliance</span>
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
-                        }`}
-                        onClick={() => {
-                          handleClick("help");
-                        }}
-                      >
-                        <i className="fa fa-user" />
-                        <span className="p-2">Help</span>
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
-                        }`}
-                        onClick={() => {
-                          handleClick("about");
-                        }}
-                      >
-                        <i className="fa fa-user" />
-                        <span className="p-2">About</span>
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`p-2 ${
-                          active ? "bg-indigo-500" : "text-gray-700"
+                          active ? "bg-lime-300" : "text-gray-700"
                         }`}
                       >
-                        <i className="fa fa-user" />
+                        <i className="fa fa-right-from-bracket" />
                         <span className="p-2" onClick={logout}>
                           Log out
                         </span>
@@ -277,9 +248,6 @@ function VendorHome() {
         visible={features}
         profile={profile}
         documents={document}
-        guideliance={guideliance}
-        help={help}
-        about={about}
         onClose={handleOnClose}
       />
     </>
