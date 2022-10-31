@@ -1,6 +1,9 @@
 {
   "name": "foodie",
   "version": "0.1.0",
+  "engines": {
+    "node":"16.13.2"
+  },
   "private": true,
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.14.3",
